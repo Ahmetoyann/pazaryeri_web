@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gizlilik Politikası - Pazaryeri</title>
+  <link rel="icon" href="/copilot_ikon.png" />
+  <link rel="apple-touch-icon" href="/copilot_ikon.png" />
+  <style>
+    /* Ana Sayfadan Gelen CSS Değişkenleri ve Temel Ayarlar */
+    :root {
+      --primary: #f97316; /* Orange */
+      --primary-dark: #ea580c;
+      --secondary: #10b981; /* Emerald Green */
+      --bg-color: #ffffff;
+      --bg-light: #ffffff;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --card-bg: rgba(255, 255, 255, 0.5);
+      --border-color: rgba(229, 231, 235, 0.7);
+      --nav-bg: rgba(255, 255, 255, 0.85);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #111827;
+      --bg-light: #111827;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --card-bg: rgba(31, 41, 55, 0.5);
+      --border-color: rgba(55, 65, 81, 0.7);
+      --nav-bg: rgba(17, 24, 39, 0.85);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navbar (Ana sayfa ile uyumlu) */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--bg-color);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .theme-toggle {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-main);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .cta-button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .cta-button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    }
+
+    /* İçerik ve Glassmorphism Kartı */
+    .privacy-container {
+      padding: 8rem 5% 4rem;
+      min-height: 100vh;
+      background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.05) 0%, var(--bg-color) 50%);
+    }
+
+    .privacy-card {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 3rem;
+      border-radius: 24px;
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(12px); /* Cam efekti */
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    }
+
+    .privacy-card h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .privacy-card .last-updated {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 2.5rem;
+      display: block;
+    }
+
+    .privacy-card h2 {
+      font-size: 1.5rem;
+      margin: 2rem 0 1rem;
+      color: var(--text-main);
+    }
+
+    .privacy-card p, .privacy-card ul {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .privacy-card ul {
+      padding-left: 1.5rem;
+    }
+
+    .privacy-card li {
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .privacy-card {
+        padding: 2rem 1.5rem;
+      }
+      .privacy-card h1 {
+        font-size: 2rem;
+      }
+      .cta-button {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="/" class="logo">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="28" height="28"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
+      Pazaryeri
+    </a>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Tema Değiştir">
+        <svg id="moonIcon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" /></svg>
+        <svg id="sunIcon" style="display:none;" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" /></svg>
+      </button>
+      <a href="/" class="cta-button">Ana Sayfaya Dön</a>
+    </div>
+  </nav>
+
+  <!-- İçerik -->
+  <main class="privacy-container">
+    <div class="privacy-card">
+      <h1>Gizlilik Politikası</h1>
+      <span class="last-updated">Son Güncelleme: 22 Nisan 2026</span>
+
+      <p><strong>Pazaryeri</strong> uygulamamızı kullandığınız için teşekkür ederiz. Bu Gizlilik Politikası, kişisel verilerinizin nasıl toplandığını, kullanıldığını ve korunduğunu açıklamaktadır.</p>
+
+      <h2>1. Toplanan Veriler</h2>
+      <p>Uygulamamızı kullanırken aşağıdaki bilgileri toplayabiliriz:</p>
+      <ul>
+        <li><strong>Kişisel Bilgiler:</strong> Ad, soyad, e-posta adresi ve profil fotoğrafı (Google ile giriş yapıldığında).</li>
+        <li><strong>Konum Bilgileri:</strong> En yakın pazarları ve satıcıları listeleyebilmek için uygulamanın arka planda veya ön planda anlık konum verisi.</li>
+        <li><strong>Kullanım Verileri:</strong> Favoriye eklenen pazarlar/satıcılar, değerlendirmeler, yorumlar ve arama geçmişiniz.</li>
+        <li><strong>Satıcı Verileri:</strong> Satıcı profili oluşturduğunuzda beyan ettiğiniz tezgah adı, ürünler ve iletişim bilgileri.</li>
+      </ul>
+
+      <h2>2. Verilerin Kullanımı</h2>
+      <p>Topladığımız verileri şu amaçlarla kullanıyoruz:</p>
+      <ul>
+        <li>Hizmetlerimizi (konuma dayalı pazar listeleme vb.) sorunsuz bir şekilde sunmak.</li>
+        <li>Müşteri ile satıcı arasındaki etkileşimi (soru-cevap, değerlendirme) güvenle sağlamak.</li>
+        <li>Uygulamanın doluluk oranı gibi anlık özelliklerini daha isabetli çalıştırabilmek.</li>
+      </ul>
+
+      <h2>3. Veri Güvenliği ve Paylaşımı</h2>
+      <p>Kullanıcı verileriniz Firebase altyapısı kullanılarak güvenli bir şekilde saklanmaktadır. Kişisel verilerinizi pazarlama amacıyla <strong>kesinlikle üçüncü taraf firmalara satmıyoruz</strong>. Verileriniz, yalnızca yasal süreçlerde talep edilmesi durumunda yetkili mercilerle paylaşılabilir.</p>
+
+      <h2>4. Kullanıcı Hakları ve İletişim</h2>
+      <p>Kullanıcılarımız; dilediklerinde verilerine erişme ve tamamen silinmesini talep etme hakkına sahiptir. Uygulama içerisinden hesabınızı silebilirsiniz.</p>
+      
+      <p>Bu politika ile ilgili soru veya veri silme talepleriniz için bize ulaşabilirsiniz:<br>
+      <strong>E-posta:</strong> ahmedoyan101@gmail.com<br>
+      <strong>Telefon:</strong> +90 541 825 73 63</p>
+    </div>
+  </main>
+
+  <!-- Tema Değiştirme JS Kodları (Local Storage destekli) -->
+  <script>
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const moonIcon = document.getElementById('moonIcon');
+    const sunIcon = document.getElementById('sunIcon');
+    const htmlElement = document.documentElement;
+
+    // Önceden seçilmiş bir tema var mı kontrol et
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    if (currentTheme === 'dark') {
+      htmlElement.setAttribute('data-theme', 'dark');
+      moonIcon.style.display = 'none';
+      sunIcon.style.display = 'block';
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isDark = htmlElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        htmlElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        moonIcon.style.display = 'block';
+        sunIcon.style.display = 'none';
+      } else {
+        htmlElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        moonIcon.style.display = 'none';
+        sunIcon.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
