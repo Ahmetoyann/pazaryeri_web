@@ -5,7 +5,7 @@ import './App.css';
 const LOGO_SRC = '/copilot_ikon.png';
 
 const BrandLogo = () => (
-  <a href="#" className="brand-logo" aria-label="Pazaryeri ana sayfa">
+  <a href="/" className="brand-logo" aria-label="Pazaryeri ana sayfa">
     <span className="brand-logo-mark">
       <img src={LOGO_SRC} alt="Pazaryeri Logosu" className="brand-logo-img" />
     </span>
