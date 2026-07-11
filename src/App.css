@@ -3,6 +3,10 @@
   --primary: #f97316; /* Orange */
   --primary-dark: #ea580c;
   --secondary: #10b981; /* Emerald Green */
+  --brand-olive: #4a5d3f;
+  --brand-sage: #8fa888;
+  --brand-cream: #f5f0e6;
+  --brand-orange: #d4843a;
   --bg-color: #ffffff;
   --bg-light: #ffffff;
   --text-main: #111827;
@@ -60,10 +64,31 @@ html {
   100% { transform: translateY(0px); }
 }
 
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4); }
-  70% { box-shadow: 0 0 0 15px rgba(249, 115, 22, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+@keyframes pulseGlowPanel {
+  0% { box-shadow: 0 0 0 0 var(--panel-glow); }
+  70% { box-shadow: 0 0 0 15px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-12px) scale(1.03); }
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes orbDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, -15px) scale(1.05); }
+  66% { transform: translate(-10px, 10px) scale(0.95); }
+}
+
+@keyframes tagPop {
+  0% { opacity: 0; transform: translateY(12px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes typing {
@@ -80,12 +105,11 @@ html {
 /* Ortak Animasyon Sınıfları */
 .hidden-for-scroll {
   opacity: 0;
-  visibility: hidden;
+  transform: translateY(40px);
 }
 
 .animate-slide-up {
   animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
 }
 .delay-1 { animation-delay: 0.1s; }
 .delay-2 { animation-delay: 0.2s; }
@@ -172,14 +196,45 @@ html {
   visibility: visible;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--primary-dark);
-  letter-spacing: -0.5px;
+/* --- Brand Logo --- */
+.brand-logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.brand-logo:hover {
+  transform: translateY(-2px);
+}
+
+.brand-logo-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.brand-logo:hover .brand-logo-mark {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+}
+
+.brand-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.brand-logo-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
 }
 
 .nav-links {
@@ -412,13 +467,317 @@ html {
   padding: 6rem 5%;
 }
 
-.bg-light {
-  background-color: var(--bg-light);
-}
+
 
 .section-header {
   text-align: center;
   margin-bottom: 4rem;
+}
+
+/* ==========================================================================
+   7. FEATURE SHOWCASE (Müşteri & Satıcı Paneli)
+   ========================================================================== */
+
+.features-showcase {
+  padding: 4rem 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.features-showcase .section-header {
+  padding: 0 5%;
+  margin-bottom: 2rem;
+}
+
+.feature-block {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 5rem 5%;
+  border-top: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.feature-block-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-block--reverse .feature-block-inner {
+  direction: rtl;
+}
+
+.feature-block--reverse .feature-block-inner > * {
+  direction: ltr;
+}
+
+/* --- Feature Block Görsel Alanı --- */
+.feature-block-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 280px;
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-block--reverse .feature-block-visual {
+  transform: translateX(40px);
+}
+
+.feature-block--visible .feature-block-visual {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.feature-block-icon-ring {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 2px dashed var(--border-color);
+  animation: ringPulse 4s ease-in-out infinite;
+}
+
+.feature-block-icon {
+  position: relative;
+  z-index: 1;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 28px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+}
+
+.feature-block--visible .feature-block-icon {
+  animation: iconFloat 5s ease-in-out infinite;
+}
+
+.feature-block-icon svg {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.feature-block:hover .feature-block-icon {
+  transform: scale(1.05);
+  border-color: var(--primary);
+}
+
+.feature-block:hover .feature-block-icon svg {
+  transform: scale(1.1) rotate(8deg);
+}
+
+/* --- Feature Block İçerik Alanı --- */
+.feature-block-content {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.feature-block--visible .feature-block-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feature-block-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: var(--panel-badge-bg);
+  color: var(--panel-badge-text);
+}
+
+.feature-block-content h3 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.feature-block-content p {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 520px;
+}
+
+.feature-block-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 2rem;
+}
+
+.feature-block-tag {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--pill-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: var(--transition);
+}
+
+.feature-block--visible .feature-block-tag:nth-child(1) { animation: tagPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
+.feature-block--visible .feature-block-tag:nth-child(2) { animation: tagPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.65s forwards; }
+.feature-block--visible .feature-block-tag:nth-child(3) { animation: tagPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards; }
+
+.feature-block-tag:hover {
+  border-color: var(--panel-accent);
+  color: var(--panel-accent);
+  transform: translateY(-2px);
+}
+
+/* --- Feature Block Arka Plan Efektleri --- */
+.feature-block-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.feature-block-number {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(8rem, 18vw, 16rem);
+  font-weight: 900;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--border-color);
+  opacity: 0;
+  user-select: none;
+  transition: opacity 1s ease 0.3s;
+}
+
+.feature-block--reverse .feature-block-number {
+  right: auto;
+  left: 5%;
+}
+
+.feature-block-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0;
+  transition: opacity 1.2s ease 0.4s;
+}
+
+.feature-block--visible .feature-block-orb,
+.feature-block--visible .feature-block-number {
+  opacity: 0.5;
+}
+
+.feature-block-orb--1 {
+  width: 400px;
+  height: 400px;
+  top: -10%;
+  right: 10%;
+  animation: orbDrift 12s ease-in-out infinite;
+}
+
+.feature-block-orb--2 {
+  width: 300px;
+  height: 300px;
+  bottom: -5%;
+  left: 5%;
+  animation: orbDrift 15s ease-in-out infinite reverse;
+}
+
+.feature-block--reverse .feature-block-orb--1 { right: auto; left: 10%; }
+.feature-block--reverse .feature-block-orb--2 { left: auto; right: 5%; }
+
+/* --- Feature Showcase Tema Ayarları --- */
+.features-showcase--customer {
+  --panel-accent: #d4843a;
+  --panel-secondary: #8fa888;
+  --panel-badge-bg: #fdf6ec;
+  --panel-badge-text: #92400e;
+  --panel-grad-start: #fff7ed;
+  --panel-bg-tint: #fffbf5;
+  --panel-glow: rgba(212, 132, 58, 0.4);
+  --panel-border-accent: rgba(212, 132, 58, 0.3);
+  background: linear-gradient(180deg, var(--panel-bg-tint) 0%, var(--bg-color) 100%);
+}
+
+.features-showcase--seller {
+  --panel-accent: #4a7c59;
+  --panel-secondary: #d4843a;
+  --panel-badge-bg: #edf5ef;
+  --panel-badge-text: #2d5a3d;
+  --panel-grad-start: #f0fdf4;
+  --panel-bg-tint: #f5faf6;
+  --panel-glow: rgba(74, 124, 89, 0.4);
+  --panel-border-accent: rgba(74, 124, 89, 0.3);
+  background: linear-gradient(180deg, var(--panel-bg-tint) 0%, var(--bg-light) 100%);
+}
+
+[data-theme="dark"] .features-showcase--customer {
+  --panel-badge-bg: rgba(212, 132, 58, 0.15);
+  --panel-badge-text: #fdba74;
+  --panel-grad-start: #431407;
+  --panel-bg-tint: #1a1208;
+}
+
+[data-theme="dark"] .features-showcase--seller {
+  --panel-badge-bg: rgba(74, 124, 89, 0.2);
+  --panel-badge-text: #86efac;
+  --panel-grad-start: #052e16;
+  --panel-bg-tint: #0a1a0f;
+}
+
+.features-showcase--customer .section-title svg,
+.features-showcase--customer .feature-block-icon { color: var(--panel-accent); }
+.features-showcase--seller .section-title svg,
+.features-showcase--seller .feature-block-icon { color: var(--panel-accent); }
+
+.features-showcase--customer .feature-block-orb--1 { background: radial-gradient(circle, rgba(212, 132, 58, 0.2) 0%, transparent 70%); }
+.features-showcase--customer .feature-block-orb--2 { background: radial-gradient(circle, rgba(143, 168, 136, 0.15) 0%, transparent 70%); }
+.features-showcase--seller .feature-block-orb--1 { background: radial-gradient(circle, rgba(74, 124, 89, 0.2) 0%, transparent 70%); }
+.features-showcase--seller .feature-block-orb--2 { background: radial-gradient(circle, rgba(212, 132, 58, 0.14) 0%, transparent 70%); }
+
+/* --- Vurgulu (Highlight) Feature Block --- */
+.feature-block--highlight {
+  background: linear-gradient(135deg, var(--panel-grad-start) 0%, var(--bg-color) 60%);
+  border-top-color: var(--panel-accent);
+}
+
+.feature-block--highlight .feature-block-icon {
+  border-color: var(--panel-accent);
+  animation: iconFloat 5s ease-in-out infinite, pulseGlowPanel 3s infinite 1s;
+}
+
+.feature-block--highlight .feature-block-content h3 {
+  background: linear-gradient(135deg, var(--panel-accent), var(--panel-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .section-title {
@@ -434,6 +793,7 @@ html {
   color: var(--text-muted);
   font-size: 1.1rem;
 }
+
 
 /* Feature Grid */
 .feature-grid {
@@ -455,16 +815,6 @@ html {
   transform: translateY(-10px);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   border-color: var(--primary);
-}
-
-.highlight-card {
-  background: linear-gradient(135deg, var(--hero-grad-start), var(--card-bg));
-  border-color: var(--primary);
-}
-
-/* Çakışmayı önlemek için iki animasyonu zincirliyoruz */
-.highlight-card.animate-slide-up {
-  animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, pulseGlow 3s infinite 0.8s;
 }
 
 .feature-icon {
@@ -540,15 +890,6 @@ html {
   margin-bottom: 3rem;
   flex-wrap: wrap;
   gap: 2rem;
-}
-
-.footer-logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .footer-center {
@@ -710,6 +1051,37 @@ html {
   /* Hide the CTA button on smaller screens to make space for hamburger */
   .nav-actions .cta-button {
       display: none;
+  }
+}
+
+/* Tablet & Büyük Telefonlar */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .feature-block {
+    min-height: auto;
+    padding: 4rem 5%;
+  }
+
+  .feature-block-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: center;
+  }
+
+  .feature-block--reverse .feature-block-inner {
+    direction: ltr;
+  }
+
+  .feature-block-visual {
+    min-height: 200px;
+    transform: translateY(30px);
+  }
+
+  .feature-block--reverse .feature-block-visual {
+    transform: translateY(30px);
   }
 }
 
